@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+
+{% include 'loft/components/_filter.html' %}
+
+{% endblock header %}
+
+
+{% block main %}
+<main class="main">
+    <div class="container">
+        <section class="products">
+            <h2 class="products__title">{{ title }}</h2>
+            <div class="products__content">
+
+                {% for product in products %}
+                    {% include 'loft/components/_card.html' %}
+                {% endfor %}
+
+            </div>
+            <!-- /.products__content -->
+        </section>
+
+        {% include 'loft/components/_pagination.html' %}
+        <!-- /.products -->
+    </div>
+    <!-- /.container -->
+</main>
+{% endblock main %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block header %}
+
+{% endblock header %}
+
+{% block main %}
+
+<main class="main">
+    <div class="container">
+        <section class="basket">
+            <div class="basket__text">
+                <h1 class="basket__title">Ваша корзина</h1>
+                <span class="basket__count"><span>{{ cart.cart_total_quantity }}</span> предмета</span>
+            </div>
+            <div class="basket__items">
+                {% for p_cart in products_cart %}
+                <div class="basket__item">
+                    <a href="{{ p_cart.product.get_absolute_url }}" class="basket__item-img">
+                        <img src="{{ p_cart.product.first_photo }}" alt="product">
+                    </a>
+                    <div class="basket__item-content">
+                        <div class="basket__item-text">
+                            <h2 class="basket__item-title">{{ p_cart.product.title }}</h2>
+                            <p class="basket__item-price">
+                                {% if p_cart.product.discount %}
+                                <span class="discount">
+                                            <i class="far fa-badge-percent"></i>
+                                            -{{ p_cart.product.discount }}
+                                        </span>
+                                <span class="old__price"><span>{{ p_cart.get_old_price|intcomma }}</span>₽</span>
+                                {% endif %}
+                                <span class="price"><span>{{ p_cart.get_total_price|intcomma }}</span>₽</span>
+
+                            </p>
+                        </div>
+                        <div class="basket__options">
+                            <p class="basket__options-color">
+                                Цвет:
+                                <span class="color__name">{{ p_cart.product.color_name }}</span>
+                                <span class="color__block" style="background:{{ p_cart.product.color_code }}"></span>
+                            </p>
+                            <p class="basket__options-count">
+                                Количество:
+                                <span>
+                                <a href="{% url 'action_cart' p_cart.product.slug 'delete' %}" class="add_del">-</a>
+                                {{ p_cart.quantity }}
+                                    <a href="{% url 'action_cart' p_cart.product.slug 'add' %}" class="add_del">+</a>
+
+                                </span>
+                            </p>
+                            <p class="basket__options-size">
+                                Размер(Ш×Д×В): <span>{{ p_cart.product.width }} СМ × {{ p_cart.product.height }} СМ × {{ p_cart.product.length }} СМ</span>
+                            </p>
+                        </div>
+                    </div>
+                    <a href="{% url 'action_cart' p_cart.product.slug 'clear' %}" class="basket__delete">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% if products_cart %}
+            <form class="products__form" method="post" action="{% url 'checkout' %}">
+                {% csrf_token %}
+                <span>Итоговая стоимость:<span class="products__form-price">{{ cart.cart_total_price|intcomma }}₽</span></span>
+                <button class="btn products__form-btn" type="submit">Оформить заказ</button>
+            </form>
+            {% endif %}
+        </section>
+
+    </div>
+</main>
+
+{% endblock main %}
+

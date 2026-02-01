@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block header %}
+
+{% endblock header %}
+
+{% block main %}
+
+<main class="main">
+    <div class="profile">
+        <div class="container">
+            <div class="profile__content">
+
+                <form class="profile__form" method="post" action="{% url 'payment' %}">
+                    {% csrf_token %}
+                    <h2 class="profile__title">Детали заказа</h2>
+                    <div class="profile__form-grid">
+
+                        <div class="input__title">
+                            <h2>Регион</h2>
+                            {{ form.region }}
+                        </div>
+                        <div class="input__title">
+                            <h2>Город</h2>
+                            {{ form.city }}
+                        </div>
+                        <div class="input__title">
+                            <h2>Улица</h2>
+                            {{ form.street }}
+                        </div>
+                        <div class="input__title">
+                            <h2>Дом/Корпус</h2>
+                            {{ form.home }}
+                        </div>
+                        <div class="input__title">
+                            <h2>Квартира номер</h2>
+                            {{ form.flat }}
+                        </div>
+
+                        <div class="input__title">
+                            <h2>Телефон получателя</h2>
+                            {{ form.phone }}
+                        </div>
+
+                        <div></div>
+
+                        <div class="input__title _span-two">
+                            <h2>Комментарий к заказу</h2>
+                            {{ form.comment }}
+                        </div>
+                    </div>
+                    <button class="btn profile__btn" type="submit">Перейти к оплате</button>
+
+                </form>
+
+                <div class="profile__orders">
+                    <h2 class="profile__title">Товары заказы</h2>
+
+                    <table class="profile__table">
+                        <tr>
+                            <td colspan="4">Товар</td>
+                            <td>Цена</td>
+                            <td>Количество</td>
+                            <td>На сумму</td>
+                        </tr>
+
+                        {% for p_cart in products_cart %}
+                        <tr>
+                            <td colspan="4" class="profile__title-adaptive">
+                                <div class="tabel__item">
+                                    <img src="{{ p_cart.product.first_photo }}" alt="img">
+                                    <span>{{ p_cart.product.title }}</span>
+                                </div>
+                            </td>
+                            <td class="profile__tabel-data">{{ p_cart.product.get_price|intcomma }}₽</td>
+                            <td class="profile__tabel-data">{{ p_cart.quantity }}</td>
+                            <td class="profile__tabel-data">{{ p_cart.get_total_price|intcomma }}₽</td>
+                        </tr>
+                        {% endfor %}
+
+                        <!-- Не трогать - это заглушка для корректного отображения таблицы -->
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <!-- Не трогать - это заглушка для корректного отображения таблицы -->
+                    </table>
+                    <h4 class="profile__orders-link">Сумма заказа: {{ cart.cart_total_price|intcomma }}₽</h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock main %}
+
+{% block js %}
+
+<script>
+const regionCities = {{ dict_city|safe }};
+const regionSelect = document.getElementById('id_region');
+const citySelect = document.getElementById('id_city');
+
+
+regionSelect.addEventListener('change', function() {
+  const selectedRegion = this.value;
+  updateCityOptions(selectedRegion);
+});
+
+
+function updateCityOptions(selectedRegion) {
+  citySelect.innerHTML = '<option value="" selected>---------</option>';
+  if (selectedRegion in regionCities) {
+    const cities = regionCities[selectedRegion];
+    cities.forEach(city => {
+      const option = document.createElement('option');
+      option.value = city[1];
+      option.text = city[0];
+      citySelect.add(option);
+    });
+  }
+}
+
+</script>
+
+{% endblock js %}
+
+

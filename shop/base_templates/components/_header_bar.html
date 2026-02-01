@@ -1,0 +1,58 @@
+{% load static %}
+
+<div class="header__bar">
+    <a href="#!" class="nav__bars-open">
+        <span class="burger"></span>
+        <span class="burger"></span>
+        <span class="burger"></span>
+    </a>
+
+    <a href="{% url 'main' %}" class="logo">
+        <img src="{% static 'assets/icons/LOGO.svg' %}" alt="logo">
+    </a>
+    <form class="header__search">
+        <i class="fal fa-search"></i>
+        <input type="text" class="header__search-txt" placeholder="Поиск">
+    </form>
+
+    <ul class="header__list">
+        <li>
+            <a href="./registration.html" class="header__list-item _truck">
+                <i class="far fa-truck"></i>
+                Доставка
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'favs' %}"
+               class="header__list-item {% if 'favorites' in request.path %}active{% endif %}" id="_heart">
+
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'basket' %}"
+               class="header__list-item {% if 'basket' in request.path %}active{% endif %}" id="_bag">
+
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'profile' %}"
+               class="header__list-item {% if 'profile' in request.path %}active{% endif %}" id="_profile">
+
+            </a>
+        </li>
+
+        <li style="margin-top: 5px">
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="header__list-item">
+                <img src="{% static 'assets/icons/logout.svg' %}" alt="">
+            </a>
+            {% else %}
+            <a href="{% url 'auth' %}" class="header__list-item">
+                <img src="{% static 'assets/icons/login.svg' %}" alt="">
+            </a>
+            {% endif %}
+        </li>
+
+    </ul>
+</div>
+

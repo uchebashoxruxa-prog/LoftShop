@@ -1,0 +1,26 @@
+{% load static %}
+{% load loft_tags %}
+{% get_categories as cats %}
+
+
+<ul class="nav__list _categories">
+    <li>
+        <h2 class="nav__title nav__title-categories">Категории</h2>
+    </li>
+
+    {% for cat in cats %}
+    <li>
+        <a href="#!" class="nav__list-links">
+            <img src="{{ cat.get_icon }}" alt="icons">{{ cat.title }}
+        </a>
+    </li>
+    {% endfor %}
+
+
+    <li>
+        <a href="#!" class="nav__list-links">
+            <img src="{% static 'assets/icons/nav_menu/Vector.svg' %}" alt="icons">
+            Акция
+        </a>
+    </li>
+</ul>

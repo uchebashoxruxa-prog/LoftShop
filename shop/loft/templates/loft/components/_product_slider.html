@@ -1,0 +1,49 @@
+{% load static %}
+
+<div class="product__slider-content">
+
+    <div class="sliderLines">
+
+        <div class="product__slider-item active">
+            <img src="{{ product.first_photo }}" alt="banner"
+                 class="product__slider-img">
+        </div>
+
+        {% for item in product.images.all|slice:"1:" %}
+        <div class="product__slider-item">
+            <img src="{{ item.image.url }}" alt="banner"
+                 class="product__slider-img">
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="product__slider-panel">
+
+        <ul class="product__slider-indicators">
+            <li>
+                <a href="#!" class="indicators__links active">
+                    <img src="{{ product.first_photo }}" alt="products" height="100px">
+                </a>
+            </li>
+            {% for item in product.images.all|slice:"1:" %}
+            <li>
+                <a href="#!" class="indicators__links">
+                    <img src="{{ item.image.url }}" alt="products" height="100px">
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="product__slider-btns">
+            <button class="btn__next">
+                <img src="{% static 'assets/icons/arrow-black.svg' %}" alt="arrow">
+            </button>
+            <button class="btn__prev">
+                <img src="{% static 'assets/icons/arrow-black.svg' %}" alt="arrow">
+            </button>
+        </div>
+    </div>
+
+
+</div>

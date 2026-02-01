@@ -1,0 +1,65 @@
+{% load static %}
+{% load humanize %}
+{% load loft_tags %}
+
+{% if request.user.is_authenticated %}
+{% get_favorites request.user as favs %}
+{% endif %}
+
+<div class="products__item" id="{{ product.slug }}">
+    <a href="{% url 'action_favorite' product.slug %}#{{ product.slug }}"
+       class="products__item-heart {% if product in favs %} active {% endif %}">
+
+    </a>
+
+    {% if product.discount %}
+    <div class="card_discount">
+        <small>-{{ product.discount }}</small>
+        <img src="{% static 'assets/icons/nav_menu/Vector.svg' %}" alt="icons">
+    </div>
+    {% endif %}
+
+    <a href="{{ product.get_absolute_url }}"> <img src="{{ product.first_photo }}" alt=""
+                                   class="products__item-img"></a>
+    <div class="products__item-text">
+        <h3 class="products__item-title">{{ product.title }}</h3>
+        <div class="products__item-desrc">{{ product.category.title }}</div>
+        <div class="products__item-price">{{ product.get_price|intcomma }}₽
+            {% if product.discount %}
+            <span class="old_price">{{ product.price|intcomma }}₽</span>
+            {% endif %}
+        </div>
+    </div>
+    <!-- /.products__item-text -->
+    <div class="products__item-options products__options">
+        <h4 class="products__options-title">Размеры</h4>
+        <ul class="products__options-list options__list">
+            <li class="options__list-item">
+                <p class="options__list-text">
+                    ШИРИНА
+                </p>
+                <span class="size">{{ product.width }} СМ</span>
+            </li>
+            <li class="options__list-item">
+                <p class="options__list-text">
+                    ГЛУБИНА
+                </p>
+                <span class="size">{{ product.length }} СМ</span>
+            </li>
+            <li class="options__list-item">
+                <p class="options__list-text">
+                    ВЫСОТА
+                </p>
+                <span class="size">{{ product.height }} СМ</span>
+            </li>
+        </ul>
+        {% if product.quantity %}
+        <a href="{% url 'action_cart' product.slug 'add' %}" class="options__btn btn">Добавить в корзину</a>
+        {% else %}
+        <a class="options__btn btn">Нет в наличии</a>
+        {% endif %}
+    </div>
+    <!-- /.products__options -->
+</div>
+
+

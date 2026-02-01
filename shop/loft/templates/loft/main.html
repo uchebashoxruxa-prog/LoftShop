@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+<main class="main">
+    <div class="container">
+        <section class="products">
+            <h2 class="products__title">Хиты продаж</h2>
+            <div class="products__content">
+                {% for cat in categories %}
+                    {% for subcat in cat.subcategories.all %}
+                        {% for product in subcat.products.all|slice:"::-1"|slice:":2" %}
+                            <!-- /.products__item -->
+                            {% include 'loft/components/_card.html' %}
+
+                        {% endfor %}
+                    {% endfor %}
+                {% endfor %}
+
+            </div>
+            <!-- /.products__content -->
+        </section>
+        <!-- /.products -->
+    </div>
+    <!-- /.container -->
+</main>
+{% endblock main %}

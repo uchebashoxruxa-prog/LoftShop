@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+
+{% block header %}
+{% endblock header %}
+
+
+{% block main %}
+
+<main class="main">
+    <div class="registeration">
+        <div class="container">
+            <div class="registeration__content">
+
+                <form class="registeration__form active" method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <h2 class="registeration__title products__title">Авторизация</h2>
+                    {% for msg in messages %}
+                    <span class="msg_item">{{ msg }}</span>
+                    {% endfor %}
+
+                    <div class="registeration__form-grid">
+
+                        <div class="input__title">
+                            <h2>E-mail</h2>
+                            {{ log_form.username }}
+                        </div>
+
+
+                        <div class="input__title">
+                            <h2>Пароль</h2>
+                            {{ log_form.password }}
+                        </div>
+
+                    </div>
+
+                    <div class="registeration__btns">
+                        <a href="#!" class="registeration__links">Ещё нет аккаунта?</a>
+                    </div>
+
+                    <button class="btn registeration__btn-login _auth">Войти</button>
+
+                </form>
+
+                <form class="registeration__form" method="post" action="{% url 'register' %}">
+                    {% csrf_token %}
+                    <h2 class="registeration__title products__title">Регистрация</h2>
+                    <div class="registeration__form-grid">
+
+                        <div class="input__title">
+                            <h2>Имя</h2>
+                            {{ reg_form.first_name }}
+                        </div>
+                        <div class="input__title">
+                            <h2>Фамилия</h2>
+                            {{ reg_form.last_name }}
+                        </div>
+                        <div class="input__title">
+                            <h2>E-mail</h2>
+                            {{ reg_form.username }}
+                        </div>
+
+                        <div class="input__title">
+                            <h2>Номер телефона</h2>
+                            <input name="phone" required type="tel" class="contact__section-input">
+                        </div>
+
+                        <div class="input__title">
+                            <h2>Придумайте пароль</h2>
+                            {{ reg_form.password1 }}
+                        </div>
+                        <div class="input__title">
+                            <h2>Подтвердить пароль</h2>
+                            {{ reg_form.password2 }}
+                        </div>
+
+                    </div>
+
+                    <button class="btn registeration__btn-login _auth">Подтвердить</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock main %}

@@ -1,0 +1,25 @@
+{% load static %}
+{% load loft_tags %}
+{% get_categories as cats %}
+
+<ul class="header__list _categories">
+    {% for cat in cats %}
+    <li>
+        <a href="{{ cat.get_absolute_url }}" class="header__list-links">
+                                <span class="header__list-img">
+                                    <img src="{{ cat.get_icon }}" alt="icons">
+                                </span>
+            {{ cat.title }}
+        </a>
+    </li>
+    {% endfor %}
+
+    <li>
+        <a href="{% url 'sales' %}" class="header__list-links">
+                                <span class="header__list-img">
+                                    <img src="{% static 'assets/icons/nav_menu/Vector.svg' %}" alt="icons">
+                                </span>
+            Акции
+        </a>
+    </li>
+</ul>

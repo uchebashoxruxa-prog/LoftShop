@@ -1,0 +1,69 @@
+{% load static %}
+{% load humanize %}
+{% load loft_tags %}
+
+{% if request.user.is_authenticated %}
+{% get_favorites request.user as favs %}
+{% endif %}
+
+<div class="product__slider-parameters">
+    <div class="product__raiting">
+        <div class="product__raiting-body">
+            <div class="product__raiting-active"></div>
+            <div class="product__raiting-items">
+                <input type="radio" name="raiting" value="1" class="product__raiting-links">
+                <input type="radio" name="raiting" value="2" class="product__raiting-links">
+                <input type="radio" name="raiting" value="3" class="product__raiting-links">
+                <input type="radio" name="raiting" value="4" class="product__raiting-links">
+                <input type="radio" name="raiting" value="5" class="product__raiting-links">
+            </div>
+        </div>
+        <div class="product__raiting-value">3.4</div>
+    </div>
+
+    <h1 class="product__title">{{ product.title }}</h1>
+    <span class="product__categories">{{ product.category.title }}</span>
+    <div class="product__links">
+        <h2 class="product__links-price"><span>{{ product.get_price|intcomma }}</span> ₽</h2>
+        <a href="{% url 'action_cart' product.slug 'add' %}" class="product__links-buy">В корзину</a>
+        <a href="{% url 'action_favorite' product.slug %}"
+           class="products__item-heart product__links-add {% if product in favs %} active {% endif %}">
+            <span>Добавить в желаемое</span></a>
+    </div>
+    <ul class="paremeters__list">
+        <li class="paremetes__list-item">
+            <h3 class="paremeters__list-title">Цвет</h3>
+            <a href="#!" class="paremeters__list-btn">
+                <div class="paremeters__color" style="background: {{ product.color_code }}"></div>
+                <img src="{% static 'assets/icons/arrow-black.svg' %}" alt="arrow-down">
+            </a>
+            <div class="list__drop">
+                {% for product in product_models %}
+                <a href="{{ product.get_absolute_url }}">
+                    <div class="color_square" style="background: {{ product.color_code }}"></div>
+                </a>
+                {% endfor %}
+            </div>
+        </li>
+        <li class="paremetes__list-item">
+            <h3 class="paremeters__list-title">Количество</h3>
+            <a href="#!" class="paremeters__list-btn">
+                <div class="paremeters__count"><span>{{ product.quantity }}</span></div>
+            </a>
+
+        </li>
+        <li class="paremetes__list-item">
+            <h3 class="paremeters__list-title">Размер (Ш × Г × В)</h3>
+            <a href="#!" class="paremeters__list-btn">
+                <div class="paremeters__size">{{ product.width }} СМ × {{ product.length }} СМ ×
+                    {{ product.height }} СМ</div>
+
+            </a>
+        </li>
+    </ul>
+
+    <p class="product__descr">
+        <span class="product__descr-title">Описание</span>
+        {{ product.description }}
+    </p>
+</div>

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block header %}
+
+{% endblock header %}
+
+{% block main %}
+
+<main class="main">
+    <div class="profile">
+        <div class="container">
+            <div class="profile__content d-flex flex-column gap-5 align-items-center">
+                {% for order in orders %}
+                <div class="profile__orders">
+
+                    <div class="d-flex justify-content-between">
+                        <h2 class="profile__title">Заказ №: {{ order.pk }}</h2>
+
+                        <div class="d-flex flex-column">
+                            <small>Дата: {{ order.created_at }}</small>
+                            <small class="fw-bold">Сумма заказа: {{ order.price|intcomma }}₽</small>
+                        </div>
+                    </div>
+
+                    <table class="profile__table">
+                        <tr>
+                            <td colspan="4">Товар</td>
+                            <td>Цена</td>
+                            <td>Количество</td>
+                            <td>На сумму</td>
+                        </tr>
+                        {% for product in order.products.all %}
+                        <tr>
+                            <td colspan="4" class="profile__title-adaptive">
+                                <div class="tabel__item">
+                                    <img src="{{ product.photo }}" alt="img">
+                                    <span>{{ product.name }}</span>
+                                </div>
+                            </td>
+                            <td class="profile__tabel-data">{{ product.price|intcomma }}₽</td>
+                            <td class="profile__tabel-data">{{ product.quantity }}</td>
+                            <td class="profile__tabel-data">{{ product.total_price }}</td>
+                        </tr>
+                        {% endfor %}
+
+                        <!-- Не трогать - это заглушка для корректного отображения таблицы -->
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <!-- Не трогать - это заглушка для корректного отображения таблицы -->
+                    </table>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock main %}
+
+
+
+
+
+
+
+
+
